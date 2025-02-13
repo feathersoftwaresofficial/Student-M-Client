@@ -15,6 +15,9 @@ const Dasbord = ({ selector, dispatch }) => {
     allStudentStatus,
   } = selector;
 
+  console.log(studentsData);
+  
+
   const navigatePath = (name) => {
     if (name === "totalStudent") {
       navigate(`/all_Student`);
@@ -32,7 +35,7 @@ const Dasbord = ({ selector, dispatch }) => {
     fetchData();
   }, []);
   
-
+``
 
 
   return (
@@ -69,7 +72,7 @@ const Dasbord = ({ selector, dispatch }) => {
               </div>
               <div className="">
                 <h2 className="text-xl font-medium capitalize text-[#6D6D6D]">
-                  Active students
+                  Ongoing students
                 </h2>
                 {getStudentCountsLoading || isLoading ? (
                   <div className="mt-3">
@@ -107,7 +110,11 @@ const Dasbord = ({ selector, dispatch }) => {
             className=" w-full min-h-[106px] flex gap-6 items-center  p-5 cursor-pointer bg-[#F0F0F0] rounded-[15px] transition-colors"
             onClick={() => navigatePath(item.feild)}
           >
-            <div className={`w-[45px] ${item.feild ==="completed"  ? "h-[45px] ":"h-[55px]"}`}>
+            <div
+              className={`w-[45px] ${
+                item.feild === "completed" ? "h-[45px] " : "h-[55px]"
+              }`}
+            >
               <img src={icons[item.feild]} className="w-full h-full" alt="" />
             </div>
 
