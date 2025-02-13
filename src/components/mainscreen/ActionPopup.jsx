@@ -6,14 +6,14 @@ import { FaEye, FaEdit } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 
 const ActionPopup = ({
-  onView,        
-  onEdit,        
-  onDelete,    
-  showView = true, 
-  loading = false,   
-  deleteLoadingIds = [] ,
-  styleClass
-
+  onView,
+  onEdit,
+  onDelete,
+  showView = true,
+  loading = false,
+  deleteLoadingIds = [],
+  styleClass,
+  setSelectedActivityIndex,
 }) => {
   return (
     <div
@@ -29,7 +29,7 @@ const ActionPopup = ({
         </button>
       )}
       <button
-        onClick={onEdit}
+        onClick={()=>{onEdit();setSelectedActivityIndex()}}
         className={`w-full flex items-center gap-2 px-4 py-2 ${
           showView ? "border-y border-opacity-30" : "border-none"
         } border-gray-400  hover:bg-gray-100 transition`}
@@ -48,9 +48,7 @@ const ActionPopup = ({
              }
         `}
       >
-        <AiFillDelete
-        // className={`${loading ? "text-red-300" : "text-red-600"}`}
-        />
+        <AiFillDelete />
         <span className="text-sm  ">Delete</span>
       </button>
     </div>

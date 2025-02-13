@@ -21,6 +21,7 @@ import Table from "../../CustomComponents/Table";
 import { studentColumns } from "../../data/table";
 
 const Student = ({ selector, dispatch, studentSelector, triggerPopUp }) => {
+  
   const { id } = useParams();
   const [deleteConfirmPopup, setDeleteConfirmPopup] = useState(false);
   const [currentDeleteId, setCurrentDeleteId] = useState("");
@@ -30,6 +31,7 @@ const Student = ({ selector, dispatch, studentSelector, triggerPopUp }) => {
   const [mentorFilter, setMentorFilter] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [actionPopup, setActionPopup] = useState(false);
 
   const {
     getStudentActivityLoading,
@@ -66,18 +68,18 @@ const Student = ({ selector, dispatch, studentSelector, triggerPopUp }) => {
       activity: !formState.activity
         ? "Activity is required."
         : formState.activity.length < 3
-          ? "Activity must be at least 3 characters."
-          : "",
+        ? "Activity must be at least 3 characters."
+        : "",
       date: !formState.date
         ? "Date is required."
         : new Date(formState.date) > new Date()
-          ? "Date cannot be in the future."
-          : "",
+        ? "Date cannot be in the future."
+        : "",
       hour: !formState.hour
         ? "Hour is required."
         : isNaN(formState.hour) || formState.hour <= 0
-          ? "Hour must be a positive number."
-          : "",
+        ? "Hour must be a positive number."
+        : "",
       mentor: !formState.mentor ? "Mentor is required." : "",
     };
 
@@ -87,14 +89,18 @@ const Student = ({ selector, dispatch, studentSelector, triggerPopUp }) => {
 
   const students = studentsDataList || [];
   const student = students.find((student) => student.id === parseInt(id));
-  console.log(student)
+  console.log(student);
 
   const studentActivity = studentAllActivity.filter(
     (activity) => activity.user === parseInt(id)
   );
 
-
-  const filteredActivities = filterActivities(studentActivity, startDate, endDate, mentorFilter);
+  const filteredActivities = filterActivities(
+    studentActivity,
+    startDate,
+    endDate,
+    mentorFilter
+  );
 
   const studentActivityHours = studentsHours.find(
     (hou) => hou.user === Number(id)
@@ -111,7 +117,6 @@ const Student = ({ selector, dispatch, studentSelector, triggerPopUp }) => {
 
   const handleAddOrUpdateActivity = async () => {
     console.log(formState);
-    // return
     const errors = validateForm(formState);
     if (errors) {
       setFormState((prev) => ({
@@ -220,7 +225,6 @@ const Student = ({ selector, dispatch, studentSelector, triggerPopUp }) => {
     );
   }
 
-
   const studentsWithHours = [student].map((student) => {
     const remainingHours = getStudentHoursLoading ? (
       <MutatingDotsLoder color="black" />
@@ -228,25 +232,24 @@ const Student = ({ selector, dispatch, studentSelector, triggerPopUp }) => {
       studentActivityHours.RemainingHours
     ) : (
       student.courseDuration
-    )
+    );
     const extraHours = getStudentHoursLoading ? (
       <MutatingDotsLoder color="black" />
     ) : studentActivityHours ? (
       studentActivityHours.extrahours
     ) : (
       0
-    )
+    );
 
     return {
       ...student,
       remainingHours,
-      extraHours
+      extraHours,
     };
   });
 
-  console.log(studentsWithHours)
-  console.log(students)
-
+  console.log(studentsWithHours);
+  console.log(students);
 
   const viewStudentsColumns = [
     { key: "studentName", label: "Name" },
@@ -388,4 +391,3 @@ const Student = ({ selector, dispatch, studentSelector, triggerPopUp }) => {
 };
 
 export default Student;
-

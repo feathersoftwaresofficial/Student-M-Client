@@ -5,26 +5,29 @@ import Table from "../../CustomComponents/Table";
 import AddStudent from "./AddStudent";
 import { addDeleteId, deleteStudent } from "../../slices/studentsSlice";
 import Input from "../../CustomComponents/Input";
-import FilterWithSlideDown from "../../CustomComponents/FilterWithSlideDown"; 
+import FilterWithSlideDown from "../../CustomComponents/FilterWithSlideDown";
 import { getFilteredStudents } from "../../utils/filter";
 import { typeOfStudentColumns } from "../../data/table";
 import ConfirmationPopup from "../../CustomComponents/ConfirmationPopup";
 
-
-
-const TypeOfStudent = ({ selector, dispatch, triggerPopUp, programSelector }) => {
+const TypeOfStudent = ({
+  selector,
+  dispatch,
+  triggerPopUp,
+  programSelector,
+}) => {
   const { name } = useParams();
   const navigate = useNavigate();
-  const { studentsDataList, mentorList, deleteStudentIds, isLoading } = selector;
+  const { studentsDataList, mentorList, deleteStudentIds, isLoading } =
+    selector;
   const { programType, program } = programSelector;
-    const [deleteConfirmPopup, setDeleteConfirmPopup] = useState(false);
-    const [currentDeleteId, setCurrentDeleteId] = useState("");
-const filteredByProgram = studentsDataList.filter(
-  (student) =>
-    student.programType.toLowerCase() === name.toLowerCase() ||
-    student.studentStatus.toLowerCase() === name.toLowerCase()
-);
-
+  const [deleteConfirmPopup, setDeleteConfirmPopup] = useState(false);
+  const [currentDeleteId, setCurrentDeleteId] = useState("");
+  const filteredByProgram = studentsDataList.filter(
+    (student) =>
+      student.programType.toLowerCase() === name.toLowerCase() ||
+      student.studentStatus.toLowerCase() === name.toLowerCase()
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -34,7 +37,6 @@ const filteredByProgram = studentsDataList.filter(
   const [addPopup, setAddPopup] = useState(false);
   const [editId, setEditId] = useState(null);
 
-
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -43,13 +45,10 @@ const filteredByProgram = studentsDataList.filter(
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-
   const handleDateChange = (name, value) => {
     if (name === "startDate") setStartDate(value);
     if (name === "endDate") setEndDate(value);
   };
-
-
 
   const filteredStudents = getFilteredStudents({
     students: filteredByProgram,
@@ -58,10 +57,12 @@ const filteredByProgram = studentsDataList.filter(
     endDate,
   });
 
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredStudents.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredStudents.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
 
   const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
 
@@ -69,7 +70,6 @@ const filteredByProgram = studentsDataList.filter(
     navigate(`/student/${id}`);
   };
 
-  
   const handleDelete = (id) => {
     setDeleteConfirmPopup(true);
     setCurrentDeleteId(id);
@@ -85,10 +85,6 @@ const filteredByProgram = studentsDataList.filter(
       triggerPopUp(false, "Failed to Delete Student.");
     }
   };
-
-
-
-
 
   return (
     <div className="min-h-screen flex flex-col p-3 md:p-6 relative gap-3 md:gap-6">
@@ -169,7 +165,6 @@ const filteredByProgram = studentsDataList.filter(
       )}
     </div>
   );
-  
 };
 
 export default TypeOfStudent;
